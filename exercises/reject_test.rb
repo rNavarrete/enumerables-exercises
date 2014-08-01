@@ -66,37 +66,32 @@ class RejectTest < Minitest::Test
   end
 
   def test_remove_floats
-    skip
     elements = ["cat", "dog", 32.333, 23, 56, "aimless", 43.2]
-    # Your code goes here
+    not_numbers = elements.reject { |element| element.instance_of?Float }
     assert_equal ["cat", "dog", 23, 56, "aimless"], not_numbers
   end
 
   def test_remove_animals_starting_with_vowels
-    skip
     animals = ["aardvark", "bonobo", "cat", "dog", "elephant"]
-    # Your code goes here
+    remaining = animals.reject {|animal| animal[0] == "a" or animal[0] == "e" or animal[0] == "i" or animal[0] == "o" or animal[0] == "u" or animal[0] == "y"  }
     assert_equal ["bonobo", "cat", "dog"], remaining
   end
 
   def test_remove_capitalized_words
-    skip
     words = ["CAT", "dog", "AIMLESS", "Trevor", "butter"]
-    # Your code goes here
+    remaining = words.reject{ |word| word == word.upcase}
     assert_equal ["dog", "Trevor", "butter"], remaining
   end
 
   def test_remove_arrays
-    skip
-    elements = ["CAT", ["dog"], 23, [56, 3, 8], "AIMLESS", 43, "butter"]
-    # Your code goes here
+    elements  = ["CAT", ["dog"], 23, [56, 3, 8], "AIMLESS", 43, "butter"]
+    remaining = elements.reject {|element| element.instance_of?Array} 
     assert_equal ["CAT", 23, "AIMLESS", 43, "butter"], remaining
   end
 
   def test_remove_hashes
-    skip
     elements = ["cat", {:dog=>"fido"}, 23, {:stuff=>"things"}, "aimless", 43]
-    # Your code goes here
+    remaining = elements.reject {|element| element.instance_of?Hash} 
     assert_equal ["cat", 23, "aimless", 43], remaining
   end
 

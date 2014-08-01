@@ -17,7 +17,7 @@ class RejectPatternTest < Minitest::Test
     letters = ["a", "l", "l", " ", "y", "o", "u", "r", " ", "b", "a", "s", "e", " ", "a", "r", "e", " ", "b", "e", "l", "o", "n", "g", " ", "t", "o", " ", "u", "s"]
     remaining = []
     
-    letters.each {|letter| remaining << letter unless letter == "a" or letter == "e" or letter == "i" or letter == "o" or letter == "u" or letter == "y" }
+    letters.each {|letter| remaining << letter unless letter[/[aeiouy]/]  }
     assert_equal ["l", "l", " ", "r", " ", "b", "s", " ", "r", " ", "b", "l", "n", "g", " ", "t", " ", "s"], remaining
   end
 
@@ -25,7 +25,6 @@ class RejectPatternTest < Minitest::Test
     numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
     remaining = []
     numbers.each { |number| remaining << number if number % 3 != 0}
-    # Your code goes here
     assert_equal [1, 2, 4, 5, 7, 8, 10, 11, 13, 14, 16, 17, 19, 20], remaining
   end
 
@@ -73,37 +72,38 @@ class RejectPatternTest < Minitest::Test
   end
 
   def test_remove_floats
-    skip
+    
     elements = ["cat", "dog", 32.333, 23, 56, "aimless", 43.2]
-    # Your code goes here
+    not_numbers = Array.new
+    elements.each { |element| not_numbers << element unless element.instance_of?Float}
     assert_equal ["cat", "dog", 23, 56, "aimless"], not_numbers
   end
 
   def test_remove_animals_starting_with_vowels
-    skip
     animals = ["aardvark", "bonobo", "cat", "dog", "elephant"]
-    # Your code goes here
+    remaining = Array.new
+    animals.each {|animal| remaining << animal unless animal[0] =~ /[aeiouy]/ }
     assert_equal ["bonobo", "cat", "dog"], remaining
   end
 
   def test_remove_capitalized_words
-    skip
     words = ["CAT", "dog", "AIMLESS", "Trevor", "butter"]
-    # Your code goes here
+    remaining = Array.new
+    words.each {|word| remaining << word unless word[0..-1] == word[0..-1].upcase}
     assert_equal ["dog", "Trevor", "butter"], remaining
   end
 
   def test_remove_arrays
-    skip
     elements = ["CAT", ["dog"], 23, [56, 3, 8], "AIMLESS", 43, "butter"]
-    # Your code goes here
+    remaining = []
+    elements.each {|element| remaining << element unless element.instance_of?Array}
     assert_equal ["CAT", 23, "AIMLESS", 43, "butter"], remaining
   end
 
   def test_remove_hashes
-    skip
     elements = ["cat", {:dog=>"fido"}, 23, {:stuff=>"things"}, "aimless", 43]
-    # Your code goes here
+    remaining = Array.new
+    elements.each {|element| remaining << element unless element.instance_of?Hash}
     assert_equal ["cat", 23, "aimless", 43], remaining
   end
 
